@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Special Surprise For You 💌</title>
+  <meta name="description" content="A cute, interactive romantic date invitation made with love.">
+  <meta name="theme-color" content="#FFE4E6">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Dancing Script for romantic handwritten touch -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Sacramento&display=swap" rel="stylesheet">
+
+  <!-- Canvas Confetti Library for victory celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient floating hearts canvas background -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Sparkle & glowing lights overlay -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Music toggle button (top right) -->
+  <header class="app-header">
+    <div class="brand-badge">
+      <span class="pulse-dot"></span>
+      <span class="badge-text">Just for you</span>
+    </div>
+
+    <div class="header-actions">
+      <!-- Phone number config button -->
+      <button id="config-btn" class="icon-btn" title="Set recipient WhatsApp number" aria-label="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+
+      <!-- Music toggle button (OFF by default as requested) -->
+      <button id="music-btn" class="music-pill" aria-label="Toggle background music">
+        <span class="music-icon">🎵</span>
+        <span class="music-status">Play Music</span>
+        <div class="music-bars" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- Audio Element (Local high-quality romantic track) -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Container holding 4 screens -->
+  <main class="invitation-container">
+
+    <!-- ==============================================
+         SCREEN 1: WELCOME
+         ============================================== -->
+    <section id="screen-welcome" class="screen-panel active" aria-labelledby="welcome-title">
+      <div class="card-glass content-card">
+        <!-- Cute decorative floating sticker badges -->
+        <div class="sticker sticker-top-left">✨</div>
+        <div class="sticker sticker-top-right">🌸</div>
+
+        <!-- Interactive 3D Cute Envelope -->
+        <div class="envelope-wrapper" id="envelope-trigger">
+          <div class="envelope" id="main-envelope">
+            <div class="envelope-back"></div>
+            <div class="letter">
+              <div class="letter-stamp">❤️</div>
+              <div class="letter-line line-short"></div>
+              <div class="letter-line"></div>
+              <div class="letter-line"></div>
+              <div class="letter-heart">For You</div>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-top" id="envelope-flap">
+              <div class="wax-seal">
+                <span>💌</span>
+              </div>
+            </div>
+          </div>
+          <div class="envelope-shadow"></div>
+          <p class="tap-hint">Tap the envelope or button below ✨</p>
+        </div>
+
+        <div class="text-group">
+          <h1 id="welcome-title" class="title-main">
+            Hey, pretty girl… <span class="emoji-bounce">👀</span>
+          </h1>
+          <p class="subtitle">
+            I made something for you. Don’t judge me <span class="emoji-laugh">😂</span>
+          </p>
+        </div>
+
+        <div class="action-group">
+          <button id="btn-open-surprise" class="btn-primary btn-pulse">
+            <span class="btn-text">Open your surprise</span>
+            <span class="btn-icon">💌</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         SCREEN 2: THE QUESTION
+         ============================================== -->
+    <section id="screen-question" class="screen-panel" aria-labelledby="question-title">
+      <div class="card-glass content-card question-card">
+        <div class="sticker sticker-top-left">🌹</div>
+        <div class="sticker sticker-top-right">💫</div>
+
+        <!-- Cute illustration / expressive avatar -->
+        <div class="cute-avatar-container">
+          <div class="cute-bear">
+            <div class="bear-ear ear-left"></div>
+            <div class="bear-ear ear-right"></div>
+            <div class="bear-face">
+              <div class="bear-eyes">
+                <span class="bear-eye"></span>
+                <span class="bear-eye"></span>
+              </div>
+              <div class="bear-blush blush-left"></div>
+              <div class="bear-blush blush-right"></div>
+              <div class="bear-snout">
+                <span class="bear-nose"></span>
+                <span class="bear-mouth"></span>
+              </div>
+            </div>
+            <div class="bear-hands">
+              <div class="bear-hand hand-left"></div>
+              <div class="bear-heart-gift">💝</div>
+              <div class="bear-hand hand-right"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-group">
+          <span class="kicker">Deep breath…</span>
+          <h2 id="question-title" class="title-main">
+            Okay, here’s the thing…
+          </h2>
+          <p class="question-body">
+            I think you and I should go on a date. <br>
+            <strong>What do you say?</strong> <span class="emoji-plead">🥹</span>
+          </p>
+        </div>
+
+        <!-- Interactive Question Buttons Area -->
+        <div class="decision-arena" id="decision-arena">
+          <!-- YES Button (grows slightly on each playful dodge) -->
+          <button id="btn-yes" class="btn-primary btn-yes-action">
+            <span class="btn-text">YES, obviously</span>
+            <span class="btn-icon">💖</span>
+          </button>
+
+          <!-- NO Button that playfully dodges -->
+          <div class="dodge-container" id="dodge-container">
+            <!-- Speech bubble for funny messages -->
+            <div id="dodge-bubble" class="speech-bubble" aria-live="polite">
+              <span>Excuse me?? 😭</span>
+            </div>
+            <button id="btn-no" class="btn-secondary btn-dodge" type="button">
+              <span class="btn-text">Nope</span>
+              <span class="btn-icon">🙈</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="footnote">P.S. Science confirms the pink button leads to 100% better happiness rates 🌸</p>
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         SCREEN 3: SHE SAYS YES (DATE PICKER)
+         ============================================== -->
+    <section id="screen-yes" class="screen-panel" aria-labelledby="she-said-yes-title">
+      <div class="card-glass content-card date-planner-card">
+        <div class="celebration-badge">
+          <span>🎉 OFFICIAL DATE UNLOCKED 🎉</span>
+        </div>
+
+        <div class="text-group">
+          <h2 id="she-said-yes-title" class="title-main celebration-title">
+            WAIT… YOU SAID YES?! <span class="emoji-heart">🥹❤️</span>
+          </h2>
+          <p class="subtitle date-subtitle">
+            Okay, it’s officially a date! Now choose our vibe:
+          </p>
+        </div>
+
+        <!-- 3 Interactive Date Option Cards -->
+        <div class="date-options-grid" role="radiogroup" aria-label="Date choices">
+          
+          <!-- Option 1: Coffee & conversations -->
+          <div class="date-option-card selected" data-date-id="coffee" tabindex="0" role="radio" aria-checked="true">
+            <div class="option-check">✓</div>
+            <div class="option-icon-box coffee-theme">
+              <span class="card-emoji">☕</span>
+            </div>
+            <div class="option-info">
+              <div class="option-header">
+                <h3 class="option-title">Coffee & conversations</h3>
+                <span class="option-tag">Cozy & Chill</span>
+              </div>
+              <p class="option-desc">Warm lattes, cozy couch corner, aesthetic pastries & talking for hours.</p>
+            </div>
+          </div>
+
+          <!-- Option 2: Dinner & cute vibes -->
+          <div class="date-option-card" data-date-id="dinner" tabindex="0" role="radio" aria-checked="false">
+            <div class="option-check">✓</div>
+            <div class="option-icon-box dinner-theme">
+              <span class="card-emoji">🍝</span>
+            </div>
+            <div class="option-info">
+              <div class="option-header">
+                <h3 class="option-title">Dinner & cute vibes</h3>
+                <span class="option-tag">Romantic & Fun</span>
+              </div>
+              <p class="option-desc">Dressing up, candlelit table, delicious food, good wine & sweet laughs.</p>
+            </div>
+          </div>
+
+          <!-- Option 3: Sunset walk -->
+          <div class="date-option-card" data-date-id="sunset" tabindex="0" role="radio" aria-checked="false">
+            <div class="option-check">✓</div>
+            <div class="option-icon-box sunset-theme">
+              <span class="card-emoji">🌅</span>
+            </div>
+            <div class="option-info">
+              <div class="option-header">
+                <h3 class="option-title">Sunset walk</h3>
+                <span class="option-tag">Sweet & Scenic</span>
+              </div>
+              <p class="option-desc">Golden hour stroll, walking side by side, ice cream & pink skies.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Optional cute note / day input -->
+        <div class="extra-detail-box">
+          <label for="date-sweet-note" class="detail-label">Any specific day or snack cravings? (Optional)</label>
+          <input type="text" id="date-sweet-note" class="detail-input" placeholder="e.g. This Saturday? Craving boba or tiramisu! 🍓" maxlength="80">
+        </div>
+
+        <div class="action-group">
+          <button id="btn-confirm-plan" class="btn-primary btn-pulse">
+            <span class="btn-text">This is our plan</span>
+            <span class="btn-icon">💌</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         SCREEN 4: FINAL SURPRISE & WHATSAPP
+         ============================================== -->
+    <section id="screen-final" class="screen-panel" aria-labelledby="final-title">
+      <div class="card-glass content-card final-card">
+        <div class="polaroid-frame">
+          <div class="polaroid-image">
+            <div class="couple-art">
+              <div class="cat cat-one">
+                <div class="cat-face">
+                  <div class="cat-eyes"></div>
+                  <div class="cat-snout"></div>
+                </div>
+              </div>
+              <div class="heart-pulse-central">💖</div>
+              <div class="cat cat-two">
+                <div class="cat-face">
+                  <div class="cat-eyes"></div>
+                  <div class="cat-snout"></div>
+                </div>
+              </div>
+            </div>
+            <div class="polaroid-tape"></div>
+          </div>
+          <div class="polaroid-caption">
+            <span class="caption-handwritten">Best decision you made today 🍓</span>
+          </div>
+        </div>
+
+        <div class="text-group">
+          <h2 id="final-title" class="title-main final-heading">
+            Can’t wait to see you <span class="emoji-heart">❤️</span>
+          </h2>
+          <p class="final-body">
+            Now you owe me one cute smile. <span class="emoji-wink">😉</span>
+          </p>
+        </div>
+
+        <!-- Summary of date choice -->
+        <div class="plan-summary-badge">
+          <span class="summary-label">Our Locked Plan:</span>
+          <span id="summary-choice-text" class="summary-value">Coffee & conversations ☕</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-group final-action-group">
+          <button id="btn-send-whatsapp" class="btn-primary btn-whatsapp">
+            <svg class="wa-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.5c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29z"/>
+            </svg>
+            <span class="btn-text">Send me your YES</span>
+            <span class="btn-icon">💌</span>
+          </button>
+          <span class="wa-recipient-chip">Direct to +91 9567158313 💬</span>
+
+          <!-- Alternative copy button -->
+          <button id="btn-copy-reply" class="btn-secondary btn-copy" type="button">
+            <span id="copy-btn-text">Copy message to send anywhere 📋</span>
+          </button>
+        </div>
+
+        <!-- Cute restart button -->
+        <button id="btn-restart" class="restart-link" type="button">
+          Relive the butterflies from the start ✨
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Settings Modal: for configuring WhatsApp phone number -->
+  <div id="config-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>WhatsApp Settings 📱</h3>
+        <button id="close-modal-btn" class="modal-close" aria-label="Close settings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Add your phone number (with country code, no + or spaces) so the "Send me your YES" button opens a chat directly with you!
+        </p>
+        <div class="input-wrapper">
+          <label for="phone-input">Your WhatsApp Number:</label>
+          <input type="tel" id="phone-input" placeholder="e.g. 15551234567 or 919876543210" autocomplete="tel">
+        </div>
+        <p class="modal-hint">
+          Leave blank if you prefer WhatsApp to let her pick your name from her chat list!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button id="save-phone-btn" class="btn-primary btn-sm">Save Number</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
